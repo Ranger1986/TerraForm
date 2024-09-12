@@ -5,6 +5,7 @@
 #include <QVector3D>
 #include <QOpenGLBuffer>
 #include <QOpenGLShaderProgram>
+#include <QFile>
 
 class Mesh
 {
@@ -23,6 +24,7 @@ public:
     void init();
     void draw(QOpenGLShaderProgram *program);
     void initCube();
+    bool loadOff(QString filename);
 };
 
 #endif // MESH_H

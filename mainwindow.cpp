@@ -62,10 +62,6 @@ MainWindow::MainWindow()
     addNew->setText(tr("Add new"));
     menuWindow->addAction(addNew);
 
-    QAction *LoadNew = new QAction(menuWindow);
-    LoadNew->setText(tr("Load Mesh"));
-    menuWindow->addAction(LoadNew);
-
     connect(addNew, &QAction::triggered, this, &MainWindow::onAddNew);
     setMenuBar(menuBar);
 

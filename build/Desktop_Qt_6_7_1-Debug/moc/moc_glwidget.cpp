@@ -44,7 +44,9 @@ constexpr auto qt_meta_stringdata_CLASSGLWidgetENDCLASS = QtMocHelpers::stringDa
     "setXRotation",
     "setYRotation",
     "setZRotation",
-    "cleanup"
+    "cleanup",
+    "loadOff",
+    "filename"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -57,7 +59,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSGLWidgetENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -65,15 +67,16 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSGLWidgetENDCLASS[] = {
        3,       // signalCount
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    1,   56,    2, 0x06,    1 /* Public */,
-       4,    1,   59,    2, 0x06,    3 /* Public */,
-       5,    1,   62,    2, 0x06,    5 /* Public */,
+       1,    1,   62,    2, 0x06,    1 /* Public */,
+       4,    1,   65,    2, 0x06,    3 /* Public */,
+       5,    1,   68,    2, 0x06,    5 /* Public */,
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       6,    1,   65,    2, 0x0a,    7 /* Public */,
-       7,    1,   68,    2, 0x0a,    9 /* Public */,
-       8,    1,   71,    2, 0x0a,   11 /* Public */,
-       9,    0,   74,    2, 0x0a,   13 /* Public */,
+       6,    1,   71,    2, 0x0a,    7 /* Public */,
+       7,    1,   74,    2, 0x0a,    9 /* Public */,
+       8,    1,   77,    2, 0x0a,   11 /* Public */,
+       9,    0,   80,    2, 0x0a,   13 /* Public */,
+      10,    1,   81,    2, 0x0a,   14 /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Int,    3,
@@ -85,6 +88,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSGLWidgetENDCLASS[] = {
     QMetaType::Void, QMetaType::Int,    3,
     QMetaType::Void, QMetaType::Int,    3,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::QString,   11,
 
        0        // eod
 };
@@ -117,7 +121,10 @@ Q_CONSTINIT const QMetaObject GLWidget::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<int, std::false_type>,
         // method 'cleanup'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'loadOff'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<QString, std::false_type>
     >,
     nullptr
 } };
@@ -135,6 +142,7 @@ void GLWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         case 4: _t->setYRotation((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
         case 5: _t->setZRotation((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
         case 6: _t->cleanup(); break;
+        case 7: _t->loadOff((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -184,13 +192,13 @@ int GLWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 8;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 8)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 7;
+        _id -= 8;
     }
     return _id;
 }

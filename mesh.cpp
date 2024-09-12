@@ -78,3 +78,105 @@ void Mesh::draw(QOpenGLShaderProgram *program)
     normalBuffer.release();
     //program->release();
 }
+bool Mesh::loadOff(QString filename ){
+    QFile file(filename);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qWarning() << "Cannot open file:" << filename;
+        return false;
+    }
+
+    QTextStream in(&file);
+    QString line = in.readLine();
+    if (line != "OFF") {
+        qWarning() << "File is not in OFF format";
+        return false;
+    }
+
+    // Read vertices and faces count
+    line = in.readLine();
+    QStringList counts = line.split(' ');
+    if (counts.size() < 3) {
+        qWarning() << "Invalid file format";
+        return false;
+    }
+
+    int numVertices = counts[0].toInt();
+    int numFaces = counts[1].toInt();
+
+    // Read vertices
+    m_vertex.clear();
+    for (int i = 0; i < numVertices; ++i) {
+        line = in.readLine();
+        QStringList vertexData = line.split(' ');
+        if (vertexData.size() != 3) {
+            qWarning() << "Invalid vertex data";
+            return false;
+        }
+        QVector3D vertex(vertexData[0].toFloat(), vertexData[1].toFloat(), vertexData[2].toFloat());
+        m_vertex.append(vertex);
+    }
+
+    // Initialize normals as zero vectors
+    m_normals.fill(QVector3D(0.0f, 0.0f, 0.0f), m_vertex.size());
+
+    // Read faces
+    m_index.clear();
+    for (int i = 0; i < numFaces; ++i) {
+        line = in.readLine();
+        QStringList faceData = line.split(' ');
+        if (faceData.size() < 4) {
+            qWarning() << "Invalid face data";
+            return false;
+        }
+
+        int numVerticesInFace = faceData[0].toInt();
+        if (numVerticesInFace != 3) {
+            qWarning() << "Only triangles are supported";
+            return false;
+        }
+
+        for (int j = 1; j <= 3; ++j) {
+            m_index.append(faceData[j].toUInt());
+        }
+    }
+
+    // Compute normals for each face
+    for (int i = 0; i < m_index.size(); i += 3) {
+        GLuint idx0 = m_index[i];
+        GLuint idx1 = m_index[i + 1];
+        GLuint idx2 = m_index[i + 2];
+
+        QVector3D v0 = m_vertex[idx0];
+        QVector3D v1 = m_vertex[idx1];
+        QVector3D v2 = m_vertex[idx2];
+
+        QVector3D normal = QVector3D::crossProduct(v1 - v0, v2 - v0).normalized();
+
+        m_normals[idx0] += normal;
+        m_normals[idx1] += normal;
+        m_normals[idx2] += normal;
+    }
+
+    // Normalize normals
+    for (int i = 0; i < m_normals.size(); ++i) {
+        m_normals[i] = m_normals[i].normalized();
+    }
+
+    // Load data into buffers
+    vertexBuffer.create();
+    vertexBuffer.bind();
+    vertexBuffer.allocate(m_vertex.constData(), m_vertex.size() * sizeof(QVector3D));
+    vertexBuffer.release();
+
+    indexBuffer.create();
+    indexBuffer.bind();
+    indexBuffer.allocate(m_index.constData(), m_index.size() * sizeof(GLuint));
+    indexBuffer.release();
+
+    normalBuffer.create();
+    normalBuffer.bind();
+    normalBuffer.allocate(m_normals.constData(), m_normals.size() * sizeof(QVector3D));
+    normalBuffer.release();
+
+    return true;
+}

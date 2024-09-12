@@ -59,6 +59,7 @@
 #include <QScreen>
 #include <QApplication>
 #include <QMessageBox>
+#include <QInputDialog>
 
 Window::Window(MainWindow *mw)
     : mainWindow(mw)
@@ -89,9 +90,14 @@ Window::Window(MainWindow *mw)
     QWidget *w = new QWidget;
     w->setLayout(container);
     mainLayout->addWidget(w);
+
     dockBtn = new QPushButton(tr("Undock"), this);
     connect(dockBtn, &QPushButton::clicked, this, &Window::dockUndock);
     mainLayout->addWidget(dockBtn);
+
+    loadBtn = new QPushButton(tr("Load .off"), this);
+    connect(loadBtn, &QPushButton::clicked, this, &Window::loadOff);
+    mainLayout->addWidget(loadBtn);
 
     setLayout(mainLayout);
 
@@ -149,4 +155,10 @@ void Window::dockUndock()
             QMessageBox::information(0, tr("Cannot dock"), tr("Main window already occupied"));
         }
     }
+}
+
+void Window::loadOff()
+{
+    QString filename = QInputDialog::getText(this, "Nom du fichier", "/~/bla/bla/bla/fichier.off");
+    glWidget->loadOff(filename);
 }

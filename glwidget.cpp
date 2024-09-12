@@ -269,3 +269,6 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     }
     m_last_position = event->pos();
 }
+void GLWidget::loadOff(QString filename){
+    m_mesh->loadOff(filename);
+}

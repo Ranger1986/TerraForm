@@ -73,6 +73,7 @@ protected:
 
 private slots:
     void dockUndock();
+    void loadOff();
 
 private:
     QSlider *createSlider();
@@ -82,6 +83,7 @@ private:
     QSlider *ySlider;
     QSlider *zSlider;
     QPushButton *dockBtn;
+    QPushButton *loadBtn;
     MainWindow *mainWindow;
 };
 

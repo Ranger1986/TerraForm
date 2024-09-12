@@ -82,6 +82,7 @@ public slots:
     void setYRotation(int angle);
     void setZRotation(int angle);
     void cleanup();
+    void loadOff(QString filename);
 
 signals:
 

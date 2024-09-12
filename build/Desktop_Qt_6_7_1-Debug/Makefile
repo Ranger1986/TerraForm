@@ -1040,6 +1040,12 @@ moc/moc_glwidget.cpp: ../../glwidget.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/QVector \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qvector.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/QVector3D \
+		../../mesh.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtOpenGL/QOpenGLShaderProgram \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtOpenGL/qopenglshaderprogram.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/QFile \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qfile.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qfiledevice.h \
 		moc/moc_predefs.h \
 		/home/piline/Qt/6.7.1/gcc_64/libexec/moc
 	/home/piline/Qt/6.7.1/gcc_64/libexec/moc $(DEFINES) --include /home/piline/programs/DevApp/TP1/DevApp_TP1/build/Desktop_Qt_6_7_1-Debug/moc/moc_predefs.h -I/home/piline/Qt/6.7.1/gcc_64/mkspecs/linux-g++ -I/home/piline/programs/DevApp/TP1/DevApp_TP1 -I/home/piline/programs/DevApp/TP1/DevApp_TP1 -I/home/piline/Qt/6.7.1/gcc_64/include -I/home/piline/Qt/6.7.1/gcc_64/include/QtOpenGLWidgets -I/home/piline/Qt/6.7.1/gcc_64/include/QtWidgets -I/home/piline/Qt/6.7.1/gcc_64/include/QtOpenGL -I/home/piline/Qt/6.7.1/gcc_64/include/QtGui -I/home/piline/Qt/6.7.1/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../glwidget.h -o moc/moc_glwidget.cpp
@@ -1656,9 +1662,13 @@ obj/glwidget.o: ../../glwidget.cpp ../../glwidget.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/QVector \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qvector.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/QVector3D \
-		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/QMouseEvent \
+		../../mesh.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtOpenGL/QOpenGLShaderProgram \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtOpenGL/qopenglshaderprogram.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/QFile \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qfile.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qfiledevice.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/QMouseEvent \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/QCoreApplication
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/glwidget.o ../../glwidget.cpp
 
@@ -1883,6 +1893,12 @@ obj/main.o: ../../main.cpp /home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/QAppli
 		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/QVector \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qvector.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/QVector3D \
+		../../mesh.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtOpenGL/QOpenGLShaderProgram \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtOpenGL/qopenglshaderprogram.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/QFile \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qfile.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qfiledevice.h \
 		../../mainwindow.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/QMainWindow \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/qmainwindow.h \
@@ -2025,7 +2041,11 @@ obj/mesh.o: ../../mesh.cpp ../../mesh.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qshareddata_impl.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qset.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qhash.h \
-		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qvarlengtharray.h
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/QFile \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qfile.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qfiledevice.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qiodevice.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mesh.o ../../mesh.cpp
 
 obj/window.o: ../../window.cpp ../../glwidget.h \
@@ -2242,6 +2262,12 @@ obj/window.o: ../../window.cpp ../../glwidget.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/QVector \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qvector.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/QVector3D \
+		../../mesh.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtOpenGL/QOpenGLShaderProgram \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtOpenGL/qopenglshaderprogram.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/QFile \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qfile.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qfiledevice.h \
 		../../window.h \
 		../../mainwindow.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/QMainWindow \
@@ -2266,7 +2292,16 @@ obj/window.o: ../../window.cpp ../../glwidget.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/QMessageBox \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/qmessagebox.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/qdialog.h \
-		/home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/qdialogbuttonbox.h
+		/home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/qdialogbuttonbox.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/QInputDialog \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/qinputdialog.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/qlineedit.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/qframe.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qtextcursor.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qtextdocument.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qtextformat.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qpen.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qtextoption.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/window.o ../../window.cpp
 
 obj/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
