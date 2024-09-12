@@ -57,6 +57,7 @@
 #include <QOpenGLBuffer>
 #include <QMatrix4x4>
 #include "logo.h"
+#include "mesh.h"
 
 QT_FORWARD_DECLARE_CLASS(QOpenGLShaderProgram)
 
@@ -67,6 +68,7 @@ class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions
 public:
     GLWidget(QWidget *parent = 0);
     ~GLWidget();
+    Mesh* m_mesh;
 
     static bool isTransparent() { return m_transparent; }
     static void setTransparent(bool t) { m_transparent = t; }

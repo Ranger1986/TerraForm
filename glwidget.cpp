@@ -61,6 +61,7 @@ GLWidget::GLWidget(QWidget *parent)
       m_xRot(0),
       m_yRot(0),
       m_zRot(0),
+      m_mesh(new Mesh),
       m_program(0)
 {
     m_core = QSurfaceFormat::defaultFormat().profile() == QSurfaceFormat::CoreProfile;
@@ -134,7 +135,7 @@ void GLWidget::cleanup()
     if (m_program == nullptr)
         return;
     makeCurrent();
-    m_logoVbo.destroy();
+    //m_logoVbo.destroy();
     delete m_program;
     m_program = 0;
     doneCurrent();
@@ -186,16 +187,17 @@ void GLWidget::initializeGL()
     QOpenGLVertexArrayObject::Binder vaoBinder(&m_vao);
 
     // Setup our vertex buffer object.
-    m_logoVbo.create();
-    m_logoVbo.bind();
-    m_logoVbo.allocate(m_logo.constData(), m_logo.count() * sizeof(GLfloat));
+    //m_logoVbo.create();
+    //m_logoVbo.bind();
+    //m_logoVbo.allocate(m_logo.constData(), m_logo.count() * sizeof(GLfloat));
 
     // Store the vertex attribute bindings for the program.
-    setupVertexAttribs();
+    //setupVertexAttribs();
+    m_mesh->init();
 
     // Our camera never changes in this example.
     m_view.setToIdentity();
-    m_view.translate(0, 0, -1);
+    m_view.translate(0, 0, -5);
 
     // Light position is fixed.
     m_program->setUniformValue(m_light_pos_loc, QVector3D(0, 0, 70));
@@ -205,13 +207,13 @@ void GLWidget::initializeGL()
 
 void GLWidget::setupVertexAttribs()
 {
-    m_logoVbo.bind();
+    //m_logoVbo.bind();
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
     f->glEnableVertexAttribArray(0);
     f->glEnableVertexAttribArray(1);
     f->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), 0);
     f->glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), reinterpret_cast<void *>(3 * sizeof(GLfloat)));
-    m_logoVbo.release();
+    //m_logoVbo.release();
 }
 
 void GLWidget::paintGL()
@@ -235,7 +237,9 @@ void GLWidget::paintGL()
     // Set normal matrix
     m_program->setUniformValue(m_normal_matrix_loc, normal_matrix);
 
-    glDrawArrays(GL_TRIANGLES, 0, m_logo.vertexCount());
+    //glDrawArrays(GL_TRIANGLES, 0, m_logo.vertexCount());
+
+    m_mesh->draw(m_program);
 
     m_program->release();
 }

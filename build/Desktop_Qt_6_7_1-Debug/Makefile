@@ -54,6 +54,7 @@ OBJECTS_DIR   = obj/
 
 SOURCES       = ../../glwidget.cpp \
 		../../main.cpp \
+		../../mesh.cpp \
 		../../window.cpp \
 		../../mainwindow.cpp \
 		../../logo.cpp qrc_shaders.cpp \
@@ -62,6 +63,7 @@ SOURCES       = ../../glwidget.cpp \
 		moc/moc_mainwindow.cpp
 OBJECTS       = obj/glwidget.o \
 		obj/main.o \
+		obj/mesh.o \
 		obj/window.o \
 		obj/mainwindow.o \
 		obj/logo.o \
@@ -69,7 +71,8 @@ OBJECTS       = obj/glwidget.o \
 		obj/moc_glwidget.o \
 		obj/moc_window.o \
 		obj/moc_mainwindow.o
-DIST          = /home/piline/Qt/6.7.1/gcc_64/mkspecs/features/spec_pre.prf \
+DIST          = ../../README.md \
+		/home/piline/Qt/6.7.1/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/piline/Qt/6.7.1/gcc_64/mkspecs/common/unix.conf \
 		/home/piline/Qt/6.7.1/gcc_64/mkspecs/common/linux.conf \
 		/home/piline/Qt/6.7.1/gcc_64/mkspecs/common/sanitize.conf \
@@ -290,10 +293,12 @@ DIST          = /home/piline/Qt/6.7.1/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/piline/Qt/6.7.1/gcc_64/mkspecs/features/yacc.prf \
 		/home/piline/Qt/6.7.1/gcc_64/mkspecs/features/lex.prf \
 		../../../../TP1.pro ../../glwidget.h \
+		../../mesh.h \
 		../../window.h \
 		../../mainwindow.h \
 		../../logo.h ../../glwidget.cpp \
 		../../main.cpp \
+		../../mesh.cpp \
 		../../window.cpp \
 		../../mainwindow.cpp \
 		../../logo.cpp
@@ -779,8 +784,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../shaders.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /home/piline/Qt/6.7.1/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../glwidget.h ../../window.h ../../mainwindow.h ../../logo.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../glwidget.cpp ../../main.cpp ../../window.cpp ../../mainwindow.cpp ../../logo.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../glwidget.h ../../mesh.h ../../window.h ../../mainwindow.h ../../logo.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../glwidget.cpp ../../main.cpp ../../mesh.cpp ../../window.cpp ../../mainwindow.cpp ../../logo.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -1816,6 +1821,15 @@ obj/main.o: ../../main.cpp /home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/QAppli
 		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qinputmethod.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qlocale.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qguiapplication_platform.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/QScreen \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qscreen.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/QList \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/QObject \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/QRect \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/QSize \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/QSizeF \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/QTransform \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qscreen_platform.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/QSurfaceFormat \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qsurfaceformat.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/QCommandLineParser \
@@ -1847,14 +1861,6 @@ obj/main.o: ../../main.cpp /home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/QAppli
 		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qvectornd.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qpointingdevice.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qinputdevice.h \
-		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qscreen.h \
-		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/QList \
-		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/QObject \
-		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/QRect \
-		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/QSize \
-		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/QSizeF \
-		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/QTransform \
-		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qscreen_platform.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qopengl.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qopenglext.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/QOpenGLFunctions \
@@ -1882,6 +1888,145 @@ obj/main.o: ../../main.cpp /home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/QAppli
 		/home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/qmainwindow.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/qtabwidget.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/main.o ../../main.cpp
+
+obj/mesh.o: ../../mesh.cpp ../../mesh.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/QVector \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qvector.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qlist.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qarraydatapointer.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qarraydataops.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qarraydata.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qpair.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qtconfigmacros.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qtconfiginclude.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qconfig.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qtcore-config.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qtypes.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qassert.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qtcoreexports.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qtdeprecationmarkers.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qtversionchecks.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qtnoop.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qglobal.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qtpreprocessorsupport.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qtversion.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qtclasshelpermacros.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qsysinfo.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qlogging.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qflags.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qcompare_impl.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qatomic.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qyieldcpu.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qconstructormacros.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qdarwinhelpers.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qexceptionhandling.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qforeach.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qttypetraits.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qfunctionpointer.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qmalloc.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qminmax.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qnumeric.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qoverload.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qswap.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qtenvironmentvariables.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qtresource.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qttranslation.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qversiontagging.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qxptype_traits.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/q20functional.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/q20memory.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qnamespace.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qtmetamacros.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qstring.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qchar.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qstringview.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qbytearray.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qrefcount.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qbytearrayalgorithms.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qbytearrayview.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qstringfwd.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/q20type_traits.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qstringliteral.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qlatin1stringview.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qanystringview.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qutf8stringview.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qstringtokenizer.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qstringconverter.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qstringconverter_base.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qiterator.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qstringlist.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qalgorithms.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/QVector3D \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qvectornd.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qtgui-config.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qtguiexports.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qpoint.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/q23utility.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qrect.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qmargins.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qsize.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qmath.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtOpenGL/QOpenGLBuffer \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtOpenGL/qopenglbuffer.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtOpenGL/qtopenglglobal.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtOpenGL/qtopenglexports.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qopengl.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qopenglext.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtOpenGL/QOpenGLShaderProgram \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtOpenGL/qopenglshaderprogram.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qobject.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qfunctionaltools_impl.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qcoreevent.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qmetatype.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qcompare.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qcomparehelpers.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qdatastream.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qiodevicebase.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qfloat16.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qiterable.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qmetacontainer.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qcontainerinfo.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qtaggedpointer.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qscopeguard.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qobject_impl.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qbindingstorage.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qvector2d.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qvector3d.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qvector4d.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qmatrix4x4.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qquaternion.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/qgenericmatrix.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qdebug.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qtextstream.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qshareddata.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qmap.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qshareddata_impl.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qset.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qhash.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtCore/qvarlengtharray.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mesh.o ../../mesh.cpp
 
 obj/window.o: ../../window.cpp ../../glwidget.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtOpenGLWidgets/QOpenGLWidget \
@@ -2115,6 +2260,7 @@ obj/window.o: ../../window.cpp ../../glwidget.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/QPushButton \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/qpushbutton.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/piline/Qt/6.7.1/gcc_64/include/QtGui/QScreen \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/QApplication \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/qapplication.h \
 		/home/piline/Qt/6.7.1/gcc_64/include/QtWidgets/QMessageBox \
