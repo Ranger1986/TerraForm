@@ -102,7 +102,7 @@ void GLWidget::setXRotation(int angle)
     if (angle != m_xRot) {
         m_xRot = angle;
         //Completer pour emettre un signal
-
+        emit setXRotation_signal(angle);
         update();
     }
 }
@@ -113,7 +113,7 @@ void GLWidget::setYRotation(int angle)
     if (angle != m_yRot) {
         m_yRot = angle;
         //Completer pour emettre un signal
-
+        emit setYRotation_signal(angle);
         update();
     }
 }
@@ -124,7 +124,7 @@ void GLWidget::setZRotation(int angle)
     if (angle != m_zRot) {
         m_zRot = angle;
         //Completer pour emettre un signal
-
+        emit setZRotation_signal(angle);
         update();
     }
 }

@@ -84,6 +84,9 @@ public slots:
 signals:
 
     //Completer : ajouter des signaux pour signaler des changement de rotation
+    void setXRotation_signal(int angle);
+    void setYRotation_signal(int angle);
+    void setZRotation_signal(int angle);
 
 
 protected:
