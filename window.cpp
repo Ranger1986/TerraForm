@@ -56,7 +56,7 @@
 #include <QHBoxLayout>
 #include <QKeyEvent>
 #include <QPushButton>
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QApplication>
 #include <QMessageBox>
 
@@ -121,8 +121,14 @@ void Window::dockUndock()
     if (parent()) {
         setParent(0);
         setAttribute(Qt::WA_DeleteOnClose);
-        move(QApplication::desktop()->width() / 2 - width() / 2,
-             QApplication::desktop()->height() / 2 - height() / 2);
+        QScreen *screen = QApplication::primaryScreen();
+        if (screen) {
+            QRect screenGeometry = screen->geometry();
+            move(screenGeometry.width() / 2 - width() / 2,
+                 screenGeometry.height() / 2 - height() / 2);
+        } else {
+            qWarning("No primary screen found for positioning the window.");
+        }
         dockBtn->setText(tr("Dock"));
         show();
     } else {

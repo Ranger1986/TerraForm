@@ -17,5 +17,7 @@ RESOURCES += \
     shaders.qrc
 
 QT           += widgets
+QT           += opengl
+QT           += openglwidgets
 
 

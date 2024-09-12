@@ -49,7 +49,7 @@
 ****************************************************************************/
 
 #include <QApplication>
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QSurfaceFormat>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
@@ -95,9 +95,17 @@ int main(int argc, char *argv[])
         mainWindow.setAttribute(Qt::WA_NoSystemBackground, false);
     }
     mainWindow.resize(mainWindow.sizeHint());
-    int desktopArea = QApplication::desktop()->width() *
-                     QApplication::desktop()->height();
+
+    QScreen *screen = app.primaryScreen();
+    if (!screen) {
+        qWarning("No primary screen found!");
+        return -1;
+    }
+
+    QRect screenGeometry = screen->geometry();
+    int desktopArea = screenGeometry.width() * screenGeometry.height();
     int widgetArea = mainWindow.width() * mainWindow.height();
+
     if (((float)widgetArea / (float)desktopArea) < 0.75f)
         mainWindow.show();
     else
