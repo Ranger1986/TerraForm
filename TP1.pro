@@ -19,10 +19,11 @@ RESOURCES += \
     shaders.qrc
 
 QT           += widgets
-QT           += opengl
-QT           += openglwidgets
+#QT           += opengl
+#QT           += openglwidgets
 
 DISTFILES += \
+    Bassae.png \
     README.md
 
 

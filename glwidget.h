@@ -83,6 +83,7 @@ public slots:
     void setZRotation(int angle);
     void cleanup();
     void loadOff(QString filename);
+    void loadMap(QPixmap img);
 
 signals:
 

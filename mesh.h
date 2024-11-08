@@ -25,6 +25,7 @@ public:
     void draw(QOpenGLShaderProgram *program);
     void initCube();
     bool loadOff(QString filename);
+    bool loadMap(QPixmap img);
 };
 
 #endif // MESH_H

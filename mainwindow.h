@@ -61,7 +61,10 @@ public:
     MainWindow();
 
 private slots:
-    void onAddNew();
+    void loadHeightMap();
+
+signals:
+    void loadSignal();
 };
 
 #endif

@@ -58,20 +58,17 @@ MainWindow::MainWindow()
 {
     QMenuBar *menuBar = new QMenuBar;
     QMenu *menuWindow = menuBar->addMenu(tr("&Window"));
-    QAction *addNew = new QAction(menuWindow);
-    addNew->setText(tr("Add new"));
-    menuWindow->addAction(addNew);
 
-    connect(addNew, &QAction::triggered, this, &MainWindow::onAddNew);
+    QAction *loadHM = new QAction(menuWindow);
+    loadHM->setText(tr("Load Height Map"));
+    menuWindow->addAction(loadHM);
+    connect(loadHM, &QAction::triggered, this, &MainWindow::loadHeightMap);
     setMenuBar(menuBar);
-
-    onAddNew();
+    setCentralWidget(new Window(this));
 }
 
-void MainWindow::onAddNew()
+
+void MainWindow::loadHeightMap()
 {
-    if (!centralWidget())
-        setCentralWidget(new Window(this));
-    else
-        QMessageBox::information(0, tr("Cannot add new window"), tr("Already occupied. Undock first."));
+    emit loadSignal();
 }

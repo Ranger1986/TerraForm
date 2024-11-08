@@ -52,6 +52,8 @@
 #define WINDOW_H
 
 #include <QWidget>
+#include <QHBoxLayout>
+#include <QLabel>
 
 QT_BEGIN_NAMESPACE
 class QSlider;
@@ -77,14 +79,15 @@ private slots:
 
 private:
     QSlider *createSlider();
-
     GLWidget *glWidget;
     QSlider *xSlider;
     QSlider *ySlider;
     QSlider *zSlider;
     QPushButton *dockBtn;
-    QPushButton *loadBtn;
     MainWindow *mainWindow;
+
+    QHBoxLayout *container;
+    QLabel *HeightMap;
 };
 
 #endif

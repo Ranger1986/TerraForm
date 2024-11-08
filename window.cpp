@@ -51,6 +51,7 @@
 #include "glwidget.h"
 #include "window.h"
 #include "mainwindow.h"
+#include <QLabel>
 #include <QSlider>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -80,8 +81,10 @@ Window::Window(MainWindow *mw)
     QObject::connect(glWidget,&GLWidget::setYRotation_signal, ySlider, &QSlider::setValue);
     QObject::connect(glWidget,&GLWidget::setZRotation_signal, zSlider, &QSlider::setValue);
 
+    QObject::connect(mw,&MainWindow::loadSignal,this,&Window::loadOff);
+
     QVBoxLayout *mainLayout = new QVBoxLayout;
-    QHBoxLayout *container = new QHBoxLayout;
+    container = new QHBoxLayout;
     container->addWidget(glWidget);
     container->addWidget(xSlider);
     container->addWidget(ySlider);
@@ -90,20 +93,20 @@ Window::Window(MainWindow *mw)
     QWidget *w = new QWidget;
     w->setLayout(container);
     mainLayout->addWidget(w);
-
+    /*
     dockBtn = new QPushButton(tr("Undock"), this);
     connect(dockBtn, &QPushButton::clicked, this, &Window::dockUndock);
     mainLayout->addWidget(dockBtn);
-
-    loadBtn = new QPushButton(tr("Load .off"), this);
-    connect(loadBtn, &QPushButton::clicked, this, &Window::loadOff);
-    mainLayout->addWidget(loadBtn);
+    */
 
     setLayout(mainLayout);
 
     xSlider->setValue(15 * 16);
     ySlider->setValue(345 * 16);
     zSlider->setValue(0 * 16);
+
+    HeightMap = new QLabel(this);
+    container->addWidget(HeightMap);
 
     setWindowTitle(tr("Qt OpenGL"));
 }
@@ -159,6 +162,11 @@ void Window::dockUndock()
 
 void Window::loadOff()
 {
-    QString filename = QInputDialog::getText(this, "Nom du fichier", "/~/bla/bla/bla/fichier.off");
-    glWidget->loadOff(filename);
+    //QString filename = QInputDialog::getText(this, "Nom du fichier", "/~/bla/bla/bla/fichier");
+    QString filename = R"(Bassae.png)";
+    QPixmap img(filename);
+    img = img.scaled(200,200);
+    HeightMap->setMaximumSize(200,200);
+    HeightMap->setPixmap(img);
+    glWidget->loadMap(img);
 }

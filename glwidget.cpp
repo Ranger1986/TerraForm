@@ -220,7 +220,7 @@ void GLWidget::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
+    //glEnable(GL_CULL_FACE);
 
     m_model.setToIdentity();
     m_model.rotate(180.0f - (m_xRot / 16.0f), 1, 0, 0);
@@ -264,11 +264,14 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
         setXRotation(m_xRot + 8 * dy);
         setYRotation(m_yRot + 8 * dx);
     } else if (event->buttons() & Qt::RightButton) {
-        setXRotation(m_xRot + 8 * dy);
-        setZRotation(m_zRot + 8 * dx);
+        m_view.translate(0.1 * dx, 0, 0.1 * dy);
+        update();
     }
     m_last_position = event->pos();
 }
 void GLWidget::loadOff(QString filename){
     m_mesh->loadOff(filename);
+}
+void GLWidget::loadMap(QPixmap img){
+    m_mesh->loadMap(img);
 }
