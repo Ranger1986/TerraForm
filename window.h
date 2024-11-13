@@ -70,7 +70,6 @@ class Window : public QWidget
 
 public:
     Window(MainWindow *mw);
-
 protected:
     void keyPressEvent(QKeyEvent *event) override;
 

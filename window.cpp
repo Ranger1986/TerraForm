@@ -105,8 +105,10 @@ Window::Window(MainWindow *mw)
     ySlider->setValue(345 * 16);
     zSlider->setValue(0 * 16);
 
+    /*
     HeightMap = new QLabel(this);
     container->addWidget(HeightMap);
+    */
 
     setWindowTitle(tr("Qt OpenGL"));
 }
@@ -134,7 +136,8 @@ void Window::loadOff()
 {
     //QString filename = QInputDialog::getText(this, "Nom du fichier", "/~/bla/bla/bla/fichier");
     QString filename = R"(Bassae.png)";
-    QPixmap img(filename);
+    pw->openImage(filename);
+    /*QPixmap img(filename);
     img = img.scaled(200,200);
     pw->testLabel->setMaximumSize(200,200);
     pw->testLabel->setPixmap(img);
@@ -142,4 +145,5 @@ void Window::loadOff()
     glWidget->setXRotation(90 * 16);
     glWidget->setYRotation(0);
     glWidget->setZRotation(0);
+    */
 }

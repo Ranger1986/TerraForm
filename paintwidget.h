@@ -12,9 +12,9 @@ class PaintWidget : public QWidget
 public:
     explicit PaintWidget(QWidget *parent = nullptr);
     QLabel *testLabel;
-
+    void resizeImage(QImage *image, const QSize &newSize);
     virtual void paintEvent(QPaintEvent *event);
-
+    void openImage(QString fileName);
     QImage image;
 signals:
 

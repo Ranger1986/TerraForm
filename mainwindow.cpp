@@ -58,7 +58,6 @@ MainWindow::MainWindow()
 {
     QMenuBar *menuBar = new QMenuBar;
     QMenu *menuWindow = menuBar->addMenu(tr("&Window"));
-
     QAction *loadHM = new QAction(menuWindow);
     loadHM->setText(tr("Load Height Map"));
     menuWindow->addAction(loadHM);
