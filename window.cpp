@@ -51,6 +51,7 @@
 #include "glwidget.h"
 #include "window.h"
 #include "mainwindow.h"
+#include "paintwidget.h"
 
 #include <QLabel>
 #include <QSlider>
@@ -66,65 +67,28 @@
 Window::Window(MainWindow *mw)
     : mainWindow(mw)
 {
-    glWidget = new GLWidget;
+    QHBoxLayout *mainLayout = new QHBoxLayout;
 
-    xSlider = createSlider();
-    ySlider = createSlider();
-    zSlider = createSlider();
+    //container = new QHBoxLayout;
+    glContainer = new GLContainer;
+    glContainer->setLayout(mainLayout);
+    mainLayout->addWidget(glContainer);
 
-
-    //A completer, connecter les sliders de cette classe avec le glWidget pour mettre à jour la rotation
-    QObject::connect(xSlider, &QSlider::valueChanged, glWidget, &GLWidget::setXRotation);
-    QObject::connect(ySlider, &QSlider::valueChanged, glWidget, &GLWidget::setYRotation);
-    QObject::connect(zSlider, &QSlider::valueChanged, glWidget, &GLWidget::setZRotation);
-    // et inversement
-    QObject::connect(glWidget,&GLWidget::setXRotation_signal, xSlider, &QSlider::setValue);
-    QObject::connect(glWidget,&GLWidget::setYRotation_signal, ySlider, &QSlider::setValue);
-    QObject::connect(glWidget,&GLWidget::setZRotation_signal, zSlider, &QSlider::setValue);
+    pw = new PaintWidget;
+    pw->setMinimumHeight(400);
+    pw->setMinimumWidth(400);
+    pw->setLayout(mainLayout);
+    mainLayout->addWidget(pw);
 
     QObject::connect(mw,&MainWindow::loadSignal,this,&Window::loadOff);
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
-    container = new QHBoxLayout;
-    container->addWidget(glWidget);
-    container->addWidget(xSlider);
-    container->addWidget(ySlider);
-    container->addWidget(zSlider);
-
-    pw = new PaintWidget;
-    pw->setLayout(container);
-    container->addWidget(pw);
-
-    QObject::connect(pw,&PaintWidget::modified_signal,glWidget,&GLWidget::modifiedMap);
-
-    QWidget *w = new QWidget;
-    w->setLayout(container);
-    mainLayout->addWidget(w);
+    QObject::connect(pw,&PaintWidget::modified_signal,glContainer->glWidget,&GLWidget::modifiedMap);
 
     setLayout(mainLayout);
-
-    xSlider->setValue(15 * 16);
-    ySlider->setValue(345 * 16);
-    zSlider->setValue(0 * 16);
-
-    /*
-    HeightMap = new QLabel(this);
-    container->addWidget(HeightMap);
-    */
 
     setWindowTitle(tr("Qt OpenGL"));
 }
 
-QSlider *Window::createSlider()
-{
-    QSlider *slider = new QSlider(Qt::Vertical);
-    slider->setRange(0, 360 * 16);
-    slider->setSingleStep(16);
-    slider->setPageStep(15 * 16);
-    slider->setTickInterval(15 * 16);
-    slider->setTickPosition(QSlider::TicksRight);
-    return slider;
-}
 
 void Window::keyPressEvent(QKeyEvent *e)
 {
@@ -146,7 +110,8 @@ void Window::loadOff()
     pw->testLabel->setPixmap(img);
     glWidget->loadMap(img);
     */
+    /*
     glWidget->setXRotation(90 * 16);
     glWidget->setYRotation(0);
-    glWidget->setZRotation(0);
+    glWidget->setZRotation(0);*/
 }

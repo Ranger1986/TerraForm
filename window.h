@@ -51,10 +51,13 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include "paintwidget.h"
 #include <QWidget>
 #include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QLabel>
+
+#include "paintwidget.h"
+#include "glcontainer.h"
 
 QT_BEGIN_NAMESPACE
 class QSlider;
@@ -77,15 +80,10 @@ private slots:
     void loadOff();
 
 private:
-    QSlider *createSlider();
-    GLWidget *glWidget;
-    QSlider *xSlider;
-    QSlider *ySlider;
-    QSlider *zSlider;
     MainWindow *mainWindow;
-
     QHBoxLayout *container;
-    QLabel *HeightMap;
+
+    GLContainer *glContainer;
     PaintWidget *pw;
 };
 
