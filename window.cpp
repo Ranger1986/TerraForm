@@ -95,6 +95,8 @@ Window::Window(MainWindow *mw)
     pw->setLayout(container);
     container->addWidget(pw);
 
+    QObject::connect(pw,&PaintWidget::modified_signal,glWidget,&GLWidget::modifiedMap);
+
     QWidget *w = new QWidget;
     w->setLayout(container);
     mainLayout->addWidget(w);
@@ -137,13 +139,14 @@ void Window::loadOff()
     //QString filename = QInputDialog::getText(this, "Nom du fichier", "/~/bla/bla/bla/fichier");
     QString filename = R"(Bassae.png)";
     pw->openImage(filename);
-    /*QPixmap img(filename);
+    /*
+    QPixmap img(filename);
     img = img.scaled(200,200);
     pw->testLabel->setMaximumSize(200,200);
     pw->testLabel->setPixmap(img);
     glWidget->loadMap(img);
+    */
     glWidget->setXRotation(90 * 16);
     glWidget->setYRotation(0);
     glWidget->setZRotation(0);
-    */
 }

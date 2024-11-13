@@ -269,9 +269,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     }
     m_last_position = event->pos();
 }
-void GLWidget::loadOff(QString filename){
-    m_mesh->loadOff(filename);
-}
-void GLWidget::loadMap(QPixmap img){
+void GLWidget::modifiedMap(QImage img){
     m_mesh->loadMap(img);
+    update();
 }
