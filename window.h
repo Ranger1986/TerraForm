@@ -51,6 +51,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include "paintwidget.h"
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -74,7 +75,6 @@ protected:
     void keyPressEvent(QKeyEvent *event) override;
 
 private slots:
-    void dockUndock();
     void loadOff();
 
 private:
@@ -83,11 +83,11 @@ private:
     QSlider *xSlider;
     QSlider *ySlider;
     QSlider *zSlider;
-    QPushButton *dockBtn;
     MainWindow *mainWindow;
 
     QHBoxLayout *container;
     QLabel *HeightMap;
+    PaintWidget *pw;
 };
 
 #endif

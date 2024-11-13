@@ -51,6 +51,7 @@
 #include "glwidget.h"
 #include "window.h"
 #include "mainwindow.h"
+
 #include <QLabel>
 #include <QSlider>
 #include <QVBoxLayout>
@@ -90,14 +91,13 @@ Window::Window(MainWindow *mw)
     container->addWidget(ySlider);
     container->addWidget(zSlider);
 
+    pw = new PaintWidget;
+    pw->setLayout(container);
+    container->addWidget(pw);
+
     QWidget *w = new QWidget;
     w->setLayout(container);
     mainLayout->addWidget(w);
-    /*
-    dockBtn = new QPushButton(tr("Undock"), this);
-    connect(dockBtn, &QPushButton::clicked, this, &Window::dockUndock);
-    mainLayout->addWidget(dockBtn);
-    */
 
     setLayout(mainLayout);
 
@@ -130,43 +130,16 @@ void Window::keyPressEvent(QKeyEvent *e)
         QWidget::keyPressEvent(e);
 }
 
-void Window::dockUndock()
-{
-    if (parent()) {
-        setParent(0);
-        setAttribute(Qt::WA_DeleteOnClose);
-        QScreen *screen = QApplication::primaryScreen();
-        if (screen) {
-            QRect screenGeometry = screen->geometry();
-            move(screenGeometry.width() / 2 - width() / 2,
-                 screenGeometry.height() / 2 - height() / 2);
-        } else {
-            qWarning("No primary screen found for positioning the window.");
-        }
-        dockBtn->setText(tr("Dock"));
-        show();
-    } else {
-        if (!mainWindow->centralWidget()) {
-            if (mainWindow->isVisible()) {
-                setAttribute(Qt::WA_DeleteOnClose, false);
-                dockBtn->setText(tr("Undock"));
-                mainWindow->setCentralWidget(this);
-            } else {
-                QMessageBox::information(0, tr("Cannot dock"), tr("Main window already closed"));
-            }
-        } else {
-            QMessageBox::information(0, tr("Cannot dock"), tr("Main window already occupied"));
-        }
-    }
-}
-
 void Window::loadOff()
 {
     //QString filename = QInputDialog::getText(this, "Nom du fichier", "/~/bla/bla/bla/fichier");
     QString filename = R"(Bassae.png)";
     QPixmap img(filename);
     img = img.scaled(200,200);
-    HeightMap->setMaximumSize(200,200);
-    HeightMap->setPixmap(img);
+    pw->testLabel->setMaximumSize(200,200);
+    pw->testLabel->setPixmap(img);
     glWidget->loadMap(img);
+    glWidget->setXRotation(90 * 16);
+    glWidget->setYRotation(0);
+    glWidget->setZRotation(0);
 }
