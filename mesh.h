@@ -23,7 +23,6 @@ public:
 
     void init();
     void draw(QOpenGLShaderProgram *program);
-    void initCube();
     bool loadMap(QImage img);
 };
 

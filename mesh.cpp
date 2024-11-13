@@ -10,37 +10,9 @@ Mesh::~Mesh(){
 }
 
 void Mesh::init(){
-    initCube();
-}
-void Mesh::initCube(){
-    m_vertex = {
-        QVector3D(-0.5f, -0.5f, -0.5f),
-        QVector3D( 0.5f, -0.5f, -0.5f),
-        QVector3D( 0.5f,  0.5f, -0.5f),
-        QVector3D(-0.5f,  0.5f, -0.5f),
-        QVector3D(-0.5f, -0.5f,  0.5f),
-        QVector3D( 0.5f, -0.5f,  0.5f),
-        QVector3D( 0.5f,  0.5f,  0.5f),
-        QVector3D(-0.5f,  0.5f,  0.5f)
-    };
-    m_index = {
-        1, 0, 2, 3, 2, 0,
-        4, 5, 6, 6, 7, 4,
-        0, 4, 7, 7, 3, 0,
-        5, 1, 6, 2, 6, 1,
-        2, 3, 6, 7, 6, 3,
-        0, 1, 5, 5, 4, 0
-    };
-    m_normals = {
-        QVector3D(-0.5f, -0.5f, -0.5f),
-        QVector3D( 0.5f, -0.5f, -0.5f),
-        QVector3D( 0.5f,  0.5f, -0.5f),
-        QVector3D(-0.5f,  0.5f, -0.5f),
-        QVector3D(-0.5f, -0.5f,  0.5f),
-        QVector3D( 0.5f, -0.5f,  0.5f),
-        QVector3D( 0.5f,  0.5f,  0.5f),
-        QVector3D(-0.5f,  0.5f,  0.5f)
-    };
+    m_vertex = {};
+    m_index = {};
+    m_normals = {};
 
     vertexBuffer.create();
     vertexBuffer.bind();
