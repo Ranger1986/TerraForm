@@ -56,12 +56,14 @@ SOURCES       = glwidget.cpp \
 		glcontainer.cpp \
 		main.cpp \
 		mesh.cpp \
+		paintcontainer.cpp \
 		paintwidget.cpp \
 		window.cpp \
 		mainwindow.cpp \
 		logo.cpp qrc_shaders.cpp \
 		moc/moc_glwidget.cpp \
 		moc/moc_glcontainer.cpp \
+		moc/moc_paintcontainer.cpp \
 		moc/moc_paintwidget.cpp \
 		moc/moc_window.cpp \
 		moc/moc_mainwindow.cpp
@@ -69,6 +71,7 @@ OBJECTS       = obj/glwidget.o \
 		obj/glcontainer.o \
 		obj/main.o \
 		obj/mesh.o \
+		obj/paintcontainer.o \
 		obj/paintwidget.o \
 		obj/window.o \
 		obj/mainwindow.o \
@@ -76,6 +79,7 @@ OBJECTS       = obj/glwidget.o \
 		obj/qrc_shaders.o \
 		obj/moc_glwidget.o \
 		obj/moc_glcontainer.o \
+		obj/moc_paintcontainer.o \
 		obj/moc_paintwidget.o \
 		obj/moc_window.o \
 		obj/moc_mainwindow.o
@@ -162,6 +166,7 @@ DIST          = Bassae.png \
 		TP1.pro glwidget.h \
 		glcontainer.h \
 		mesh.h \
+		paintcontainer.h \
 		paintwidget.h \
 		window.h \
 		mainwindow.h \
@@ -169,6 +174,7 @@ DIST          = Bassae.png \
 		glcontainer.cpp \
 		main.cpp \
 		mesh.cpp \
+		paintcontainer.cpp \
 		paintwidget.cpp \
 		window.cpp \
 		mainwindow.cpp \
@@ -361,8 +367,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents shaders.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents glwidget.h glcontainer.h mesh.h paintwidget.h window.h mainwindow.h logo.h $(DISTDIR)/
-	$(COPY_FILE) --parents glwidget.cpp glcontainer.cpp main.cpp mesh.cpp paintwidget.cpp window.cpp mainwindow.cpp logo.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents glwidget.h glcontainer.h mesh.h paintcontainer.h paintwidget.h window.h mainwindow.h logo.h $(DISTDIR)/
+	$(COPY_FILE) --parents glwidget.cpp glcontainer.cpp main.cpp mesh.cpp paintcontainer.cpp paintwidget.cpp window.cpp mainwindow.cpp logo.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -401,9 +407,9 @@ compiler_moc_predefs_clean:
 moc/moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -Wall -Wextra -dM -E -o moc/moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc/moc_glwidget.cpp moc/moc_glcontainer.cpp moc/moc_paintwidget.cpp moc/moc_window.cpp moc/moc_mainwindow.cpp
+compiler_moc_header_make_all: moc/moc_glwidget.cpp moc/moc_glcontainer.cpp moc/moc_paintcontainer.cpp moc/moc_paintwidget.cpp moc/moc_window.cpp moc/moc_mainwindow.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc/moc_glwidget.cpp moc/moc_glcontainer.cpp moc/moc_paintwidget.cpp moc/moc_window.cpp moc/moc_mainwindow.cpp
+	-$(DEL_FILE) moc/moc_glwidget.cpp moc/moc_glcontainer.cpp moc/moc_paintcontainer.cpp moc/moc_paintwidget.cpp moc/moc_window.cpp moc/moc_mainwindow.cpp
 moc/moc_glwidget.cpp: glwidget.h \
 		logo.h \
 		mesh.h \
@@ -419,13 +425,24 @@ moc/moc_glcontainer.cpp: glcontainer.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/e20230009622/Bureau/TP1_DevApp/moc/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/e20230009622/Bureau/TP1_DevApp -I/home/e20230009622/Bureau/TP1_DevApp -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include glcontainer.h -o moc/moc_glcontainer.cpp
 
+moc/moc_paintcontainer.cpp: paintcontainer.h \
+		paintwidget.h \
+		moc/moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/e20230009622/Bureau/TP1_DevApp/moc/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/e20230009622/Bureau/TP1_DevApp -I/home/e20230009622/Bureau/TP1_DevApp -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include paintcontainer.h -o moc/moc_paintcontainer.cpp
+
 moc/moc_paintwidget.cpp: paintwidget.h \
 		moc/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/e20230009622/Bureau/TP1_DevApp/moc/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/e20230009622/Bureau/TP1_DevApp -I/home/e20230009622/Bureau/TP1_DevApp -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include paintwidget.h -o moc/moc_paintwidget.cpp
 
 moc/moc_window.cpp: window.h \
+		paintcontainer.h \
 		paintwidget.h \
+		glcontainer.h \
+		glwidget.h \
+		logo.h \
+		mesh.h \
 		moc/moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/e20230009622/Bureau/TP1_DevApp/moc/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/e20230009622/Bureau/TP1_DevApp -I/home/e20230009622/Bureau/TP1_DevApp -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include window.h -o moc/moc_window.cpp
@@ -471,6 +488,10 @@ obj/main.o: main.cpp glwidget.h \
 obj/mesh.o: mesh.cpp mesh.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mesh.o mesh.cpp
 
+obj/paintcontainer.o: paintcontainer.cpp paintcontainer.h \
+		paintwidget.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/paintcontainer.o paintcontainer.cpp
+
 obj/paintwidget.o: paintwidget.cpp paintwidget.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/paintwidget.o paintwidget.cpp
 
@@ -478,13 +499,20 @@ obj/window.o: window.cpp glwidget.h \
 		logo.h \
 		mesh.h \
 		window.h \
+		paintcontainer.h \
 		paintwidget.h \
+		glcontainer.h \
 		mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/window.o window.cpp
 
 obj/mainwindow.o: mainwindow.cpp mainwindow.h \
 		window.h \
-		paintwidget.h
+		paintcontainer.h \
+		paintwidget.h \
+		glcontainer.h \
+		glwidget.h \
+		logo.h \
+		mesh.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mainwindow.o mainwindow.cpp
 
 obj/logo.o: logo.cpp logo.h
@@ -498,6 +526,9 @@ obj/moc_glwidget.o: moc/moc_glwidget.cpp
 
 obj/moc_glcontainer.o: moc/moc_glcontainer.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_glcontainer.o moc/moc_glcontainer.cpp
+
+obj/moc_paintcontainer.o: moc/moc_paintcontainer.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_paintcontainer.o moc/moc_paintcontainer.cpp
 
 obj/moc_paintwidget.o: moc/moc_paintwidget.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_paintwidget.o moc/moc_paintwidget.cpp

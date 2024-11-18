@@ -27,6 +27,10 @@ GLContainer::GLContainer(QWidget *parent)
     mainLayout->addWidget(zSlider);
 
     setLayout(mainLayout);
+
+    glWidget->setXRotation(90 * 16);
+    glWidget->setYRotation(0);
+    glWidget->setZRotation(0);
 }
 
 QSlider *GLContainer::createSlider()

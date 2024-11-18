@@ -6,6 +6,7 @@ INCLUDEPATH += $$PWD
 HEADERS       = glwidget.h \
                 glcontainer.h \
                 mesh.h \
+                paintcontainer.h \
                 paintwidget.h \
                 window.h \
                 mainwindow.h \
@@ -14,6 +15,7 @@ SOURCES       = glwidget.cpp \
                 glcontainer.cpp \
                 main.cpp \
                 mesh.cpp \
+                paintcontainer.cpp \
                 paintwidget.cpp \
                 window.cpp \
                 mainwindow.cpp \

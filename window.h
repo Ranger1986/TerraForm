@@ -56,7 +56,7 @@
 #include <QVBoxLayout>
 #include <QLabel>
 
-#include "paintwidget.h"
+#include "paintcontainer.h"
 #include "glcontainer.h"
 
 QT_BEGIN_NAMESPACE
@@ -84,7 +84,7 @@ private:
     QHBoxLayout *container;
 
     GLContainer *glContainer;
-    PaintWidget *pw;
+    PaintContainer *paintContainer;
 };
 
 #endif

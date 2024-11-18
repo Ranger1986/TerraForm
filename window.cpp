@@ -74,15 +74,13 @@ Window::Window(MainWindow *mw)
     glContainer->setLayout(mainLayout);
     mainLayout->addWidget(glContainer);
 
-    pw = new PaintWidget;
-    pw->setMinimumHeight(400);
-    pw->setMinimumWidth(400);
-    pw->setLayout(mainLayout);
-    mainLayout->addWidget(pw);
+    paintContainer = new PaintContainer;
+    paintContainer->setLayout(mainLayout);
+    mainLayout->addWidget(paintContainer);
 
     QObject::connect(mw,&MainWindow::loadSignal,this,&Window::loadOff);
 
-    QObject::connect(pw,&PaintWidget::modified_signal,glContainer->glWidget,&GLWidget::modifiedMap);
+    QObject::connect(paintContainer->paintWidget,&PaintWidget::modified_signal,glContainer->glWidget,&GLWidget::modifiedMap);
 
     setLayout(mainLayout);
 
@@ -102,16 +100,5 @@ void Window::loadOff()
 {
     //QString filename = QInputDialog::getText(this, "Nom du fichier", "/~/bla/bla/bla/fichier");
     QString filename = R"(Bassae.png)";
-    pw->openImage(filename);
-    /*
-    QPixmap img(filename);
-    img = img.scaled(200,200);
-    pw->testLabel->setMaximumSize(200,200);
-    pw->testLabel->setPixmap(img);
-    glWidget->loadMap(img);
-    */
-    /*
-    glWidget->setXRotation(90 * 16);
-    glWidget->setYRotation(0);
-    glWidget->setZRotation(0);*/
+    paintContainer->paintWidget->openImage(filename);
 }

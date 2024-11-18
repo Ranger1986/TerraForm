@@ -7,6 +7,7 @@
 #include <QImage>
 #include <QPoint>
 
+enum class Action { None, Draw, DrawSquare, Line };
 class PaintWidget : public QWidget
 {
     Q_OBJECT
@@ -16,6 +17,8 @@ public:
     void resizeImage(QImage *image, const QSize &newSize);
     void openImage(QString fileName);
     QImage image;
+    QImage calque;
+    Action state;
 
     void paintEvent(QPaintEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
@@ -24,9 +27,14 @@ public:
 
     bool scribbling;
     QPoint lastPoint;
+    QPoint startPoint;
     void drawLineTo(const QPoint &endPoint);
+    void showSquare();
 signals:
     void modified_signal(QImage heightMap);
+public slots:
+    void setDraw();
+    void setDrawSquare();
 
 };
 
