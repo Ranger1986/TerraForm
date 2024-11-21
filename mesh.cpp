@@ -2,6 +2,8 @@
 #include <QPixmap>
 #include <QColorSpace>
 #include <iostream>
+
+
 Mesh::Mesh() : vertexBuffer(QOpenGLBuffer::VertexBuffer), indexBuffer(QOpenGLBuffer::IndexBuffer){}
 
 Mesh::~Mesh(){
@@ -13,6 +15,7 @@ void Mesh::init(){
     m_vertex = {};
     m_index = {};
     m_normals = {};
+    m_texCoord = {};
 
     vertexBuffer.create();
     vertexBuffer.bind();
@@ -28,6 +31,12 @@ void Mesh::init(){
     normalBuffer.bind();
     normalBuffer.allocate(m_normals.constData(), m_normals.size()* sizeof(QVector3D));
     normalBuffer.release();
+
+
+    texCoordBuffer.create();
+    texCoordBuffer.bind();
+    texCoordBuffer.allocate(m_texCoord.constData(), m_texCoord.size()* sizeof(QVector2D));
+    texCoordBuffer.release();
 }
 
 void Mesh::draw(QOpenGLShaderProgram *program)
@@ -36,7 +45,6 @@ void Mesh::draw(QOpenGLShaderProgram *program)
     int vertexLocation = program->attributeLocation("vertex");
     program->enableAttributeArray(vertexLocation);
     program->setAttributeBuffer(vertexLocation, GL_FLOAT, 0, 3, sizeof(QVector3D));
-
     indexBuffer.bind();
     glDrawElements(GL_TRIANGLES, m_index.size(), GL_UNSIGNED_SHORT, 0);
 
@@ -45,13 +53,21 @@ void Mesh::draw(QOpenGLShaderProgram *program)
     program->enableAttributeArray(normalLocation);
     program->setAttributeBuffer(normalLocation, GL_FLOAT, 0, 3, sizeof(QVector3D));
 
+    texCoordBuffer.bind();
+    int texCoordLocation = program->attributeLocation("texCoord");
+    program->enableAttributeArray(texCoordLocation);
+    program->setAttributeBuffer(texCoordLocation, GL_FLOAT, 0, 3, sizeof(QVector2D));
+
+
     vertexBuffer.release();
     indexBuffer.release();
     normalBuffer.release();
+    texCoordBuffer.release();
 }
 bool Mesh::loadMap(QImage img){
     QImage image = img.scaled(200,200);
     m_vertex.clear();
+    m_texCoord.clear();
 
     for(long i = 0; i<image.width(); i++){
         for(long j = 0; j<image.height(); j++){
@@ -60,6 +76,9 @@ bool Mesh::loadMap(QImage img){
                  j-image.height()/2.0);
             vertex = vertex / image.width() * 10.0;
             m_vertex.append(vertex);
+
+            QVector2D texCoord(float(i)/image.width(), float(image.height()-j)/image.height());
+            m_texCoord.append(texCoord);
         }
     }
 
@@ -117,5 +136,10 @@ bool Mesh::loadMap(QImage img){
     normalBuffer.bind();
     normalBuffer.allocate(m_normals.constData(), m_normals.size() * sizeof(QVector3D));
     normalBuffer.release();
+
+    texCoordBuffer.create();
+    texCoordBuffer.bind();
+    texCoordBuffer.allocate(m_texCoord.constData(), m_texCoord.size() * sizeof(QVector2D));
+    texCoordBuffer.release();
     return true;
 }

@@ -53,15 +53,16 @@
 #include <QOpenGLShaderProgram>
 #include <QCoreApplication>
 #include <math.h>
+#include <QSize>
 
 bool GLWidget::m_transparent = false;
 
 GLWidget::GLWidget(QWidget *parent)
     : QOpenGLWidget(parent),
+      m_mesh(new Mesh),
       m_xRot(0),
       m_yRot(0),
       m_zRot(0),
-      m_mesh(new Mesh),
       m_program(0)
 {
     m_core = QSurfaceFormat::defaultFormat().profile() == QSurfaceFormat::CoreProfile;
@@ -72,6 +73,7 @@ GLWidget::GLWidget(QWidget *parent)
         fmt.setAlphaBufferSize(8);
         setFormat(fmt);
     }
+    setMaximumSize(QSize(400,400));
 }
 
 GLWidget::~GLWidget()
@@ -150,6 +152,7 @@ void GLWidget::initializeGL()
     // aboutToBeDestroyed() signal, instead of the destructor. The emission of
     // the signal will be followed by an invocation of initializeGL() where we
     // can recreate all resources.
+
     connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &GLWidget::cleanup);
 
     initializeOpenGLFunctions();
@@ -166,6 +169,7 @@ void GLWidget::initializeGL()
 
     m_program->bindAttributeLocation("vertex", 0);
     m_program->bindAttributeLocation("normal", 1);
+    m_program->bindAttributeLocation("texCoord", 2);
 
     // Link shader pipeline
     if (!m_program->link())
@@ -239,9 +243,17 @@ void GLWidget::paintGL()
 
     //glDrawArrays(GL_TRIANGLES, 0, m_logo.vertexCount());
 
+
+    if (texture != nullptr) {
+        texture->bind(3);
+        m_program->setUniformValue("texture", 3);
+    }
     m_mesh->draw(m_program);
 
     m_program->release();
+    if (texture != nullptr) {
+        texture->release();
+    }
 }
 
 void GLWidget::resizeGL(int w, int h)
@@ -271,5 +283,14 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 }
 void GLWidget::modifiedMap(QImage img){
     m_mesh->loadMap(img);
+    texture = new QOpenGLTexture(QImage("/home/pierre/Programs/TerraForm/Bassae.png").mirrored());
+/*
+    texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
+    texture->setMagnificationFilter(QOpenGLTexture::Linear);
+    texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
+    texture->setMagnificationFilter(QOpenGLTexture::Linear);
+    texture->setWrapMode(QOpenGLTexture::Repeat);
+    texture->setAutoMipMapGenerationEnabled(true);
+*/
     update();
 }

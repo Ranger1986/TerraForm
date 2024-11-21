@@ -27,10 +27,11 @@ PaintWidget::PaintWidget(QWidget *parent)
 void PaintWidget::openImage(QString fileName){
     // Holds the image
     QImage loadedImage;
-    std::cout << "openImage" << std::endl;
+    // std::cout << "PaintWidget::openImage" << std::endl;
     // If the image wasn't loaded leave this function
     if (!loadedImage.load(fileName))
         return;
+    // std::cout << "PaintWidget::openImage loaded" << std::endl;
 
     //QSize newSize = loadedImage.size().expandedTo(size());
     //resizeImage(&loadedImage, QSize(400,400));

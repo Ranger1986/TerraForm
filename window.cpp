@@ -99,6 +99,6 @@ void Window::keyPressEvent(QKeyEvent *e)
 void Window::loadOff()
 {
     //QString filename = QInputDialog::getText(this, "Nom du fichier", "/~/bla/bla/bla/fichier");
-    QString filename = R"(Bassae.png)";
+    QString filename = "/home/pierre/Programs/TerraForm/Bassae.png";
     paintContainer->paintWidget->openImage(filename);
 }

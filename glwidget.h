@@ -56,6 +56,7 @@
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
 #include <QMatrix4x4>
+#include <QOpenGLTexture>
 #include "logo.h"
 #include "mesh.h"
 
@@ -102,6 +103,7 @@ protected:
 private:
     void setupVertexAttribs();
 
+    QOpenGLTexture *texture;
     bool m_core;
     int m_xRot;
     int m_yRot;
