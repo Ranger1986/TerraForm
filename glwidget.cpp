@@ -54,6 +54,7 @@
 #include <QCoreApplication>
 #include <math.h>
 #include <QSize>
+#include <QFileDialog>
 
 bool GLWidget::m_transparent = false;
 
@@ -207,6 +208,10 @@ void GLWidget::initializeGL()
     m_program->setUniformValue(m_light_pos_loc, QVector3D(0, 0, 70));
 
     m_program->release();
+
+    QImage tex = QImage(255,255,QImage::Format_ARGB32);
+    tex.fill(QColor(255,255,255,255));
+    texture = new QOpenGLTexture(tex);
 }
 
 void GLWidget::setupVertexAttribs()
@@ -283,7 +288,6 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 }
 void GLWidget::modifiedMap(QImage img){
     m_mesh->loadMap(img);
-    texture = new QOpenGLTexture(QImage("/home/pierre/Programs/TerraForm/Bassae.png").mirrored());
 /*
     texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
     texture->setMagnificationFilter(QOpenGLTexture::Linear);
@@ -292,5 +296,11 @@ void GLWidget::modifiedMap(QImage img){
     texture->setWrapMode(QOpenGLTexture::Repeat);
     texture->setAutoMipMapGenerationEnabled(true);
 */
+    update();
+}
+void GLWidget::loadTex(){
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                            tr("Open Image"), "../../", tr("Image Files (*.png *.jpg *.bmp)"));
+    texture = new QOpenGLTexture(QImage(fileName).mirrored());
     update();
 }

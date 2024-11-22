@@ -78,6 +78,7 @@ protected:
 
 private slots:
     void loadOff();
+    void loadTex();
 
 private:
     MainWindow *mainWindow;

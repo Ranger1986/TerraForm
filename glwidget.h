@@ -84,6 +84,7 @@ public slots:
     void setZRotation(int angle);
     void cleanup();
     void modifiedMap(QImage img);
+    void loadTex();
 
 signals:
 

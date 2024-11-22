@@ -79,6 +79,7 @@ Window::Window(MainWindow *mw)
     mainLayout->addWidget(paintContainer);
 
     QObject::connect(mw,&MainWindow::loadSignal,this,&Window::loadOff);
+    QObject::connect(mw,&MainWindow::loadTexSignal,this,&Window::loadTex);
 
     QObject::connect(paintContainer->paintWidget,&PaintWidget::modified_signal,glContainer->glWidget,&GLWidget::modifiedMap);
 
@@ -101,4 +102,8 @@ void Window::loadOff()
     //QString filename = QInputDialog::getText(this, "Nom du fichier", "/~/bla/bla/bla/fichier");
     QString filename = "/home/pierre/Programs/TerraForm/Bassae.png";
     paintContainer->paintWidget->openImage(filename);
+}
+void Window::loadTex()
+{
+    glContainer->glWidget->loadTex();
 }

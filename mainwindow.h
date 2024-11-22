@@ -62,9 +62,11 @@ public:
 
 private slots:
     void loadHeightMap();
+    void loadTexture();
 
 signals:
     void loadSignal();
+    void loadTexSignal();
 };
 
 #endif

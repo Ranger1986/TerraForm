@@ -18,6 +18,15 @@ PaintContainer::PaintContainer(QWidget *parent)
 
     setLayout(mainLayout);
 
-    connect(draw_button, &QPushButton::released, paintWidget, &PaintWidget::setDraw);
-    connect(square_button, &QPushButton::released, paintWidget, &PaintWidget::setDrawSquare);
+    connect(draw_button, &QPushButton::released, this, &PaintContainer::setDraw);
+    connect(square_button, &QPushButton::released, this, &PaintContainer::setDrawSquare);
+}
+
+void PaintContainer::setDraw(){
+    paintWidget->state=Action::Draw;
+    currentMode->setText("Draw");
+}
+void PaintContainer::setDrawSquare(){
+    paintWidget->state=Action::DrawSquare;
+    currentMode->setText("DrawSquare");
 }

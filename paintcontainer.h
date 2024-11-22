@@ -16,6 +16,9 @@ public:
 
     PaintWidget *paintWidget;
     QLabel *currentMode;
+public slots:
+    void setDraw();
+    void setDrawSquare();
 
 signals:
 

@@ -23,6 +23,8 @@ PaintWidget::PaintWidget(QWidget *parent)
     setLayout(mainLayout);
     scribbling = false;
     state = Action::None;
+    startPoint = QPoint(0,0);
+    lastPoint = QPoint(399,399);
 }
 void PaintWidget::openImage(QString fileName){
     // Holds the image
@@ -124,6 +126,7 @@ void PaintWidget::mousePressEvent(QMouseEvent *event)
         switch (state){
             case Action::DrawSquare:
                 startPoint = event->pos();
+                break;
             default:
                 break;
         }
@@ -135,14 +138,16 @@ void PaintWidget::mousePressEvent(QMouseEvent *event)
 // from the last position to the current
 void PaintWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    if ((event->buttons() & Qt::LeftButton) && scribbling){
+    if ((event->buttons() & Qt::LeftButton) && scribbling && QRect(0,0,400,400).contains(event->pos())){
         switch (state){
             case Action::Draw:
                 drawLineTo(event->pos());
+                break;
 
-        case Action::DrawSquare:
+            case Action::DrawSquare:
                 lastPoint = event->pos();
                 showSquare();
+                break;
             default:
                 break;
         }
@@ -158,16 +163,11 @@ void PaintWidget::mouseReleaseEvent(QMouseEvent *event)
         switch (state){
             case Action::Draw:
                 drawLineTo(event->pos());
+                break;
             default:
-            break;
+                break;
         }
         scribbling = false;
         emit modified_signal(image);
     }
-}
-void PaintWidget::setDraw(){
-    state=Action::Draw;
-}
-void PaintWidget::setDrawSquare(){
-    state=Action::DrawSquare;
 }

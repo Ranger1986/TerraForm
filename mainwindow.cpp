@@ -58,10 +58,17 @@ MainWindow::MainWindow()
 {
     QMenuBar *menuBar = new QMenuBar;
     QMenu *menuWindow = menuBar->addMenu(tr("&Window"));
+
     QAction *loadHM = new QAction(menuWindow);
     loadHM->setText(tr("Load Height Map"));
     menuWindow->addAction(loadHM);
     connect(loadHM, &QAction::triggered, this, &MainWindow::loadHeightMap);
+
+    QAction *loadTexture = new QAction(menuWindow);
+    loadTexture->setText(tr("Load Texture"));
+    menuWindow->addAction(loadTexture);
+    connect(loadTexture, &QAction::triggered, this, &MainWindow::loadTexture);
+
     setMenuBar(menuBar);
     setCentralWidget(new Window(this));
 }
@@ -70,4 +77,9 @@ MainWindow::MainWindow()
 void MainWindow::loadHeightMap()
 {
     emit loadSignal();
+}
+
+void MainWindow::loadTexture()
+{
+    emit loadTexSignal();
 }

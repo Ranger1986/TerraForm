@@ -32,9 +32,6 @@ public:
     void showSquare();
 signals:
     void modified_signal(QImage heightMap);
-public slots:
-    void setDraw();
-    void setDrawSquare();
 
 };
 
