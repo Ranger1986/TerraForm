@@ -179,6 +179,13 @@
              </widget>
             </item>
             <item>
+             <widget class="QPushButton" name="perlinNoiseButton">
+              <property name="text">
+               <string>PerlinNoise</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QLabel" name="label_4">
               <property name="text">
                <string>Alpha:</string>
@@ -262,6 +269,7 @@
     <slot>setWidth(int)</slot>
     <slot>openImage()</slot>
     <slot>randomNoise()</slot>
+    <slot>perlinNoise()</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -387,6 +395,22 @@
    <hints>
     <hint type="sourcelabel">
      <x>505</x>
+     <y>514</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>634</x>
+     <y>223</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>perlinNoiseButton</sender>
+   <signal>pressed()</signal>
+   <receiver>paint</receiver>
+   <slot>perlinNoise()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>597</x>
      <y>514</y>
     </hint>
     <hint type="destinationlabel">

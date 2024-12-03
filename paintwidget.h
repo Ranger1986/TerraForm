@@ -48,6 +48,8 @@ public slots:
     void setOpacity(int index);
     void setWidth(int index);
     void randomNoise();
+    void perlinNoise();
+
 
 
 };
