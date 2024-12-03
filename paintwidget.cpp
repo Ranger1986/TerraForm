@@ -220,10 +220,9 @@ void PaintWidget::randomNoise(){
         for(int j = 0; j<400 ; j++){
             QColor color = image.pixelColor(i,j);
             int randomColor = random()%255;
-            std::cout << randomColor << std::endl;
-            color.setBlue(int((float(color.blue())/255+float(randomColor)/alpha)/2*255));
-            color.setRed(int((float(color.red())/255+float(randomColor)/alpha)/2*255));
-            color.setGreen(int((float(color.green())/255+float(randomColor)/alpha)/2*255));
+            color.setBlue(int(float(color.blue()*255+randomColor*alpha)/(255+alpha)));
+            color.setRed(int(float(color.blue()*255+randomColor*alpha)/(255+alpha)));
+            color.setGreen(int(float(color.blue()*255+randomColor*alpha)/(255+alpha)));
             image.setPixelColor(i,j,color);
         }
     }
