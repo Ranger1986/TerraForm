@@ -75,6 +75,7 @@ public:
 
     QSize minimumSizeHint() const override;
     QSize sizeHint() const override;
+    QImage imgToLoad;
 
 public slots:
     //Completer : ajouter des slots pour signaler appliquer le changement de rotation

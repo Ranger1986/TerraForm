@@ -32,17 +32,23 @@ PaintWidget::PaintWidget(QWidget *parent)
     myBrush = new QBrush(QColor(0, 0, 0, 5));
     setFocusPolicy( Qt::StrongFocus );
     generateFlatPlane();
+
+    mountainsPoint = QVector<QPoint>();
+    updatePen();
 }
 
 void PaintWidget::setMode(int index)
 {
     mode = index;
+    if (index != 0)previewCalque.fill(QColor(0,0,0,0));
+    update();
 }
 void PaintWidget::setOpacity(int opacity)
 {
     this->opacity=opacity;
     updatePen();
 }
+
 void PaintWidget::setWidth(int width)
 {
     this->width=width;
@@ -60,6 +66,10 @@ void PaintWidget::generateCalque(){
     QImage calque = QImage(QSize(400,400), QImage::Format_ARGB32);
     calque.fill(QColor(0,0,0,0));
     calques.append(calque);
+    selectionCalque =  QImage(QSize(400,400), QImage::Format_ARGB32);
+    selectionCalque.fill(QColor(0,0,0,0));
+    previewCalque =  QImage(QSize(400,400), QImage::Format_ARGB32);
+    previewCalque.fill(QColor(0,0,0,0));
 }
 void PaintWidget::openImage(){
     QImage loadedImage;
@@ -83,6 +93,8 @@ void PaintWidget::paintEvent(QPaintEvent *_event){
     // be updated
     painter.drawImage(dirtyRect, image, dirtyRect);
     painter.drawImage(dirtyRect, calques[0], dirtyRect);
+    painter.drawImage(dirtyRect, selectionCalque, dirtyRect);
+    painter.drawImage(dirtyRect, previewCalque, dirtyRect);
 
 }
 
@@ -90,17 +102,19 @@ void PaintWidget::previewPen(const QPoint &point)
 {
 
     // Used to draw on the widget
-    calques[0].fill(QColor(0,0,0,0));
-    QPainter painter(&calques[0]);
+    previewCalque.fill(QColor(0,0,0,0));
+    QPainter painter(&previewCalque);
     painter.setPen(*myPen);
     painter.setBrush(*myBrush);
     painter.drawEllipse(point.x()-width/2 , point.y()-width/2,width, width);
     update();
 }
 
-void PaintWidget::drawLineTo(const QPoint &endPoint)
+void PaintWidget::draw(const QPoint &endPoint)
 {
     // Used to draw on the widget
+    QImage tempImg = QImage(image);
+
     QPainter painter(&image);
 
     painter.setPen(*myPen);
@@ -108,12 +122,40 @@ void PaintWidget::drawLineTo(const QPoint &endPoint)
 
     painter.drawEllipse(endPoint.x()-width/2 , endPoint.y()-width/2,width, width);
 
+    for(int i = 0; i<400 ; i++){
+        for(int j = 0; j<400 ; j++){
+            if(! (i>startPoint.x()&&j>startPoint.y() && i<lastPoint.x()&&j<lastPoint.y())){
+                image.setPixelColor(i,j,tempImg.pixelColor(i,j));
+            }
+        }
+    }
+
+    update();
+}
+void PaintWidget::drawMountains(const QPoint &endPoint)
+{
+    if (mountainsPoint.size()==0)return;
+    // Used to draw on the widget
+    calques[0].fill(QColor(0,0,0,0));
+    QPainter painter(&calques[0]);
+
+    QPen selecPen = QPen();
+    selecPen.setWidth(5);
+    selecPen.setColor(QColor(0, 0, 0, 200));
+    painter.setPen(selecPen);
+    for(int i = 0;  i<mountainsPoint.size()-1 ; i++)painter.drawLine(mountainsPoint[i],mountainsPoint[i+1]);
+    painter.drawLine(mountainsPoint[mountainsPoint.size()-1],endPoint);
+
+    selecPen.setColor(QColor(0, 0, 200,200));
+    painter.setPen(selecPen);
+    for(int i = 0;  i<mountainsPoint.size() ; i++)painter.drawEllipse(mountainsPoint[i],5,5);
+
     update();
 }
 
 void PaintWidget::showSquare(){
     // Used to draw on the widget
-    QPainter painter(&calques[0]);
+    QPainter painter(&selectionCalque);
     int x1 =lastPoint.x();
     int x2 =startPoint.x();
     int y1 =lastPoint.y();
@@ -124,7 +166,7 @@ void PaintWidget::showSquare(){
     selecPen.setColor(QColor(0, 0, 0, 200));
     painter.setPen(selecPen);
 
-    calques[0].fill(QColor(0, 0, 0, 0));
+    selectionCalque.fill(QColor(0, 0, 0, 0));
     // Draw a line from the last registered point to the current
     painter.drawLine(QPoint(x1,y1), QPoint(x1,y2));
     painter.drawLine(QPoint(x1,y2), QPoint(x2,y2));
@@ -149,11 +191,14 @@ void PaintWidget::updatePen()
 void PaintWidget::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
-        lastPoint = event->pos();
+        previousPoint = event->pos();
         scribbling = true;
         switch (mode){
             case 1:
                 startPoint = event->pos();
+                break;
+            case 3:
+                mountainsPoint.append(event->pos());
                 break;
             default:
                 break;
@@ -165,7 +210,7 @@ void PaintWidget::mouseMoveEvent(QMouseEvent *event)
     if ((event->buttons() & Qt::LeftButton) && scribbling && QRect(0,0,400,400).contains(event->pos())){
         switch (mode){
             case 0:
-                drawLineTo(event->pos());
+                draw(event->pos());
                 break;
 
             case 1:
@@ -177,6 +222,7 @@ void PaintWidget::mouseMoveEvent(QMouseEvent *event)
         }
     }
     else if(mode == 0)previewPen(event->pos());
+    else if(mode == 3)drawMountains(event->pos());
         //emit modified_signal(image);
 }
 
@@ -185,8 +231,10 @@ void PaintWidget::mouseReleaseEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton && scribbling ) {
         switch (mode){
             case 0:
-                drawLineTo(event->pos());
+                draw(event->pos());
                 break;
+            case 1:
+                updateSelection();
             default:
                 break;
         }
@@ -217,14 +265,16 @@ void PaintWidget::keyReleaseEvent(QKeyEvent *event){
 void PaintWidget::randomNoise(){
     int alpha = parent()->findChild<QSpinBox*>("noiseAlpha")->value();
     if (alpha == 0)return;
-    for(int i = 0; i<400 ; i++){
-        for(int j = 0; j<400 ; j++){
-            QColor color = image.pixelColor(i,j);
-            int randomColor = random()%255;
-            color.setBlue(int(float(color.blue()*255+randomColor*alpha)/(255+alpha)));
-            color.setRed(int(float(color.blue()*255+randomColor*alpha)/(255+alpha)));
-            color.setGreen(int(float(color.blue()*255+randomColor*alpha)/(255+alpha)));
-            image.setPixelColor(i,j,color);
+    for(int i = 0; i<=400 ; i++){
+        for(int j = 0; j<=400 ; j++){
+            if(i>startPoint.x()&&j>startPoint.y() && i<lastPoint.x()&&j<lastPoint.y()){
+                QColor color = image.pixelColor(i,j);
+                int randomColor = random()%255;
+                color.setBlue(int(float(color.blue()*255+randomColor*alpha)/(255+alpha)));
+                color.setRed(int(float(color.blue()*255+randomColor*alpha)/(255+alpha)));
+                color.setGreen(int(float(color.blue()*255+randomColor*alpha)/(255+alpha)));
+                image.setPixelColor(i,j,color);
+            }
         }
     }
     update();
@@ -306,16 +356,68 @@ float Get2DPerlinNoiseValue(float x, float y, float res)
 void PaintWidget::perlinNoise(){
     int alpha = parent()->findChild<QSpinBox*>("noiseAlpha")->value();
     if (alpha == 0)return;
-    for(int i = 0; i<400 ; i++){
-        for(int j = 0; j<400 ; j++){
-            QColor color = image.pixelColor(i,j);
-            int randomColor = (Get2DPerlinNoiseValue(i,j, 100.0)+1)*0.5*255;
-            color.setBlue(int(float(color.blue()*255+randomColor*alpha)/(255+alpha)));
-            color.setRed(int(float(color.blue()*255+randomColor*alpha)/(255+alpha)));
-            color.setGreen(int(float(color.blue()*255+randomColor*alpha)/(255+alpha)));
-            image.setPixelColor(i,j,color);
+    for(int i = 0; i<=400 ; i++){
+        for(int j = 0; j<=400 ; j++){
+            if(i>startPoint.x()&&j>startPoint.y() && i<lastPoint.x()&&j<lastPoint.y()){
+                QColor color = image.pixelColor(i,j);
+                int randomColor = (Get2DPerlinNoiseValue(i,j, 100.0)+1)*0.5*255;
+                color.setBlue(int(float(color.blue()*255+randomColor*alpha)/(255+alpha)));
+                color.setRed(int(float(color.blue()*255+randomColor*alpha)/(255+alpha)));
+                color.setGreen(int(float(color.blue()*255+randomColor*alpha)/(255+alpha)));
+                image.setPixelColor(i,j,color);
+            }
         }
     }
     update();
+    emit image_changed(image);
+}
+void PaintWidget::randomPerlinNoise(){
+    int alpha = parent()->findChild<QSpinBox*>("noiseAlpha")->value();
+    if (alpha == 0)return;
+    int xOffset = random()%400;
+    int yOffset = random()%400;
+    for(int i = 0; i<=400 ; i++){
+        for(int j = 0; j<=400 ; j++){
+            if(i>startPoint.x()&&j>startPoint.y() && i<lastPoint.x()&&j<lastPoint.y()){
+                QColor color = image.pixelColor(i,j);
+                int randomColor = (Get2DPerlinNoiseValue(i+xOffset,j+yOffset, 100.0)+1)*0.5*255;
+                color.setBlue(int(float(color.blue()*255+randomColor*alpha)/(255+alpha)));
+                color.setRed(int(float(color.blue()*255+randomColor*alpha)/(255+alpha)));
+                color.setGreen(int(float(color.blue()*255+randomColor*alpha)/(255+alpha)));
+                image.setPixelColor(i,j,color);
+            }
+        }
+    }
+    update();
+    emit image_changed(image);
+}
+void PaintWidget::updateSelection(){
+    int x1,x2,y1,y2;
+    if (startPoint.x()<lastPoint.x()){
+        x1=startPoint.x();
+        x2=lastPoint.x();
+    }
+    else{
+        x2=startPoint.x();
+        x1=lastPoint.x();
+    }
+    if (startPoint.y()<lastPoint.y()){
+        y1=startPoint.y();
+        y2=lastPoint.y();
+    }
+    else{
+        y2=startPoint.y();
+        y1=lastPoint.y();
+    }
+    startPoint.setX(x1);
+    startPoint.setY(y1);
+    lastPoint.setX(x2);
+    lastPoint.setY(y2);
+}
+void distancePointSegment(QPoint a, QPoint b, QPoint c){
+    QPoint projete = ((b-a) * QPoint::dotProduct(a,c));
+    ;
+}
+void PaintWidget::start(){
     emit image_changed(image);
 }

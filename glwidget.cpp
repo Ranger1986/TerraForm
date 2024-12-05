@@ -200,11 +200,12 @@ void GLWidget::initializeGL()
     // Store the vertex attribute bindings for the program.
     //setupVertexAttribs();
     m_mesh->init();
+    m_mesh->loadMap(imgToLoad);
 
     // Our camera never changes in this example.
     m_view.setToIdentity();
     m_view.translate(0, 0, -5);
-
+    setXRotation(90*16);
     // Light position is fixed.
     m_program->setUniformValue(m_light_pos_loc, QVector3D(0, 0, 70));
 
@@ -289,7 +290,8 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 }
 
 void GLWidget::modifiedMap(QImage img){
-    m_mesh->loadMap(img);
+    imgToLoad = img;
+    m_mesh->loadMap(imgToLoad);
     update();
 }
 

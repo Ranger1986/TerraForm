@@ -57,6 +57,12 @@
        </item>
        <item>
         <widget class="QSlider" name="xSlider">
+         <property name="maximum">
+          <number>5760</number>
+         </property>
+         <property name="sliderPosition">
+          <number>1440</number>
+         </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -67,6 +73,9 @@
          <property name="layoutDirection">
           <enum>Qt::LeftToRight</enum>
          </property>
+         <property name="maximum">
+          <number>5760</number>
+         </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -74,6 +83,9 @@
        </item>
        <item>
         <widget class="QSlider" name="zSlider">
+         <property name="maximum">
+          <number>5760</number>
+         </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -102,7 +114,7 @@
        <item>
         <widget class="QTabWidget" name="tabWidget">
          <property name="currentIndex">
-          <number>2</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab">
           <attribute name="title">
@@ -154,7 +166,7 @@
          </widget>
          <widget class="QWidget" name="tab_2">
           <attribute name="title">
-           <string>Tab 2</string>
+           <string>Selection</string>
           </attribute>
          </widget>
          <widget class="QWidget" name="Noise">
@@ -172,18 +184,29 @@
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout">
             <item>
-             <widget class="QPushButton" name="randomNoiseButton">
-              <property name="text">
-               <string>RandomNoise</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="perlinNoiseButton">
-              <property name="text">
-               <string>PerlinNoise</string>
-              </property>
-             </widget>
+             <layout class="QVBoxLayout" name="verticalLayout">
+              <item>
+               <widget class="QPushButton" name="randomNoiseButton">
+                <property name="text">
+                 <string>RandomNoise</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="perlinNoiseButton">
+                <property name="text">
+                 <string>PerlinNoise</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="randomPerlinNoise">
+                <property name="text">
+                 <string>RandomPerlinNoise</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
             <item>
              <widget class="QLabel" name="label_4">
@@ -201,6 +224,11 @@
             </item>
            </layout>
           </widget>
+         </widget>
+         <widget class="QWidget" name="Mountains">
+          <attribute name="title">
+           <string>Mountains</string>
+          </attribute>
          </widget>
         </widget>
        </item>
@@ -252,8 +280,14 @@
    <header>glwidget.h</header>
    <container>1</container>
    <slots>
+    <signal>setXRotation_signal(int)</signal>
+    <signal>setYRotation_signal(int)</signal>
+    <signal>setZRotation_signal(int)</signal>
     <slot>modifiedMap(QImage)</slot>
     <slot>loadTex()</slot>
+    <slot>setXRotation(int)</slot>
+    <slot>setYRotation(int)</slot>
+    <slot>setZRotation(int)</slot>
    </slots>
   </customwidget>
   <customwidget>
@@ -270,6 +304,7 @@
     <slot>openImage()</slot>
     <slot>randomNoise()</slot>
     <slot>perlinNoise()</slot>
+    <slot>randomPerlinNoise()</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -416,6 +451,118 @@
     <hint type="destinationlabel">
      <x>634</x>
      <y>223</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>randomPerlinNoise</sender>
+   <signal>pressed()</signal>
+   <receiver>paint</receiver>
+   <slot>randomPerlinNoise()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>510</x>
+     <y>550</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>634</x>
+     <y>223</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>openGL</sender>
+   <signal>setXRotation_signal(int)</signal>
+   <receiver>xSlider</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>201</x>
+     <y>231</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>214</x>
+     <y>492</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>openGL</sender>
+   <signal>setYRotation_signal(int)</signal>
+   <receiver>ySlider</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>201</x>
+     <y>231</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>214</x>
+     <y>521</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>openGL</sender>
+   <signal>setZRotation_signal(int)</signal>
+   <receiver>zSlider</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>201</x>
+     <y>231</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>214</x>
+     <y>550</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>xSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>openGL</receiver>
+   <slot>setXRotation(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>214</x>
+     <y>492</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>201</x>
+     <y>231</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ySlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>openGL</receiver>
+   <slot>setYRotation(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>214</x>
+     <y>521</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>201</x>
+     <y>231</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>zSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>openGL</receiver>
+   <slot>setZRotation(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>214</x>
+     <y>550</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>201</x>
+     <y>231</y>
     </hint>
    </hints>
   </connection>

@@ -29,7 +29,10 @@ public:
     bool scribbling;
     QPoint lastPoint;
     QPoint startPoint;
-    void drawLineTo(const QPoint &endPoint);
+    QVector<QPoint> mountainsPoint;
+    QPoint previousPoint;
+    void draw(const QPoint &endPoint);
+    void drawMountains(const QPoint &endPoint);
     void showSquare();
 
     int opacity;
@@ -38,7 +41,11 @@ public:
     QBrush *myBrush;
     void updatePen();
     QVector<QImage> calques;
+    QImage selectionCalque;
+    QImage previewCalque;
     void generateCalque();
+    void updateSelection();
+    void start();
 signals:
     void image_changed(QImage heightMap);
 public slots:
@@ -49,6 +56,7 @@ public slots:
     void setWidth(int index);
     void randomNoise();
     void perlinNoise();
+    void randomPerlinNoise();
 
 
 
