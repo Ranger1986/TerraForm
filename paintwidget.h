@@ -7,6 +7,8 @@
 #include <QImage>
 #include <QPoint>
 
+#include "CatmullRom.h"
+
 class PaintWidget : public QWidget
 {
     Q_OBJECT
@@ -46,17 +48,23 @@ public:
     void generateCalque();
     void updateSelection();
     void start();
+    CatmullRom curve;
 signals:
     void image_changed(QImage heightMap);
 public slots:
     void generateFlatPlane();
     void openImage();
+
     void setMode(int index);
     void setOpacity(int index);
     void setWidth(int index);
+
     void randomNoise();
     void perlinNoise();
     void randomPerlinNoise();
+
+    void meanFilter();
+    void medianFilter();
 
 
 

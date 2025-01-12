@@ -9,6 +9,9 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    CatmullRom.cpp \
+    Curve.cpp \
+    Vector.cpp \
     glwidget.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -16,6 +19,9 @@ SOURCES += \
     paintwidget.cpp
 
 HEADERS += \
+    CatmullRom.h \
+    Curve.h \
+    Vector.h \
     glwidget.h \
     mainwindow.h \
     mesh.h \

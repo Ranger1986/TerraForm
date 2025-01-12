@@ -10,7 +10,7 @@
 #include <QFileDialog>
 #include <QSpinBox>
 #include <cmath>
-
+#include<QDebug>
 PaintWidget::PaintWidget(QWidget *parent)
     : QWidget{parent}
 {
@@ -35,6 +35,8 @@ PaintWidget::PaintWidget(QWidget *parent)
 
     mountainsPoint = QVector<QPoint>();
     updatePen();
+    curve = CatmullRom();
+    curve.set_steps(20);
 }
 
 void PaintWidget::setMode(int index)
@@ -199,6 +201,12 @@ void PaintWidget::mousePressEvent(QMouseEvent *event)
                 break;
             case 3:
                 mountainsPoint.append(event->pos());
+                curve.add_way_point(Vector(event->pos().x(), event->pos().y(), 0));
+                std::cout << curve.node_count() << std::endl;
+                if (curve.node_count()>0){
+                    mountainsPoint.clear();
+                    for (int i = 0 ; i<20 ; i++)mountainsPoint.append(QPoint(curve.node(i).x,curve.node(i).y));
+                }
                 break;
             default:
                 break;
@@ -416,8 +424,50 @@ void PaintWidget::updateSelection(){
 }
 void distancePointSegment(QPoint a, QPoint b, QPoint c){
     QPoint projete = ((b-a) * QPoint::dotProduct(a,c));
-    ;
 }
 void PaintWidget::start(){
     emit image_changed(image);
+}
+
+void PaintWidget::meanFilter(){
+    qDebug() << "function meanFilter called";
+    for(int i = 1; i<400 ; i++){
+        for(int j = 1; j<400 ; j++){
+            if(i>startPoint.x()&&j>startPoint.y() && i<lastPoint.x()&&j<lastPoint.y()){
+                //qDebug() << i << "|" << j;
+                int r=0;
+                for(int i2 = i-1; i2<=i+1 ; i2++){
+                    for(int j2 = j-1; j2<=j+1 ; j2++){
+                        r += image.pixelColor(i2,j2).red();
+                    }
+                }
+                r/=9;
+                image.setPixelColor(i,j,QColor(r,r,r));
+            }
+        }
+    }
+    update();
+    emit image_changed(image);
+    qDebug() << "function meanFilter ended";
+}
+void PaintWidget::medianFilter(){
+    qDebug() << "function medianFilter called";
+    for(int i = 1; i<400 ; i++){
+        for(int j = 1; j<400 ; j++){
+            if(i>startPoint.x()&&j>startPoint.y() && i<lastPoint.x()&&j<lastPoint.y()){
+                //qDebug() << i << "|" << j;
+                QVector<int> ndgList = QVector<int>();
+                for(int i2 = i-1; i2<=i+1 ; i2++){
+                    for(int j2 = j-1; j2<=j+1 ; j2++){
+                        ndgList.append(image.pixelColor(i2,j2).red());
+                        std::sort(ndgList.begin(), ndgList.end());
+                    }
+                }
+                image.setPixelColor(i,j,QColor(ndgList[4],ndgList[4],ndgList[4]));
+            }
+        }
+    }
+    update();
+    emit image_changed(image);
+    qDebug() << "function medianFilter ended";
 }
