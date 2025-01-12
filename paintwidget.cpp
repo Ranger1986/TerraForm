@@ -37,6 +37,8 @@ PaintWidget::PaintWidget(QWidget *parent)
     updatePen();
     curve = CatmullRom();
     curve.set_steps(20);
+
+    filterNeighbor=1;
 }
 
 void PaintWidget::setMode(int index)
@@ -431,43 +433,53 @@ void PaintWidget::start(){
 
 void PaintWidget::meanFilter(){
     qDebug() << "function meanFilter called";
-    for(int i = 1; i<400 ; i++){
-        for(int j = 1; j<400 ; j++){
+    QImage newImage = image;
+    for(int i = filterNeighbor; i<=400-filterNeighbor ; i++){
+        for(int j = filterNeighbor; j<=400-filterNeighbor ; j++){
             if(i>startPoint.x()&&j>startPoint.y() && i<lastPoint.x()&&j<lastPoint.y()){
                 //qDebug() << i << "|" << j;
                 int r=0;
-                for(int i2 = i-1; i2<=i+1 ; i2++){
-                    for(int j2 = j-1; j2<=j+1 ; j2++){
+                for(int i2 = i-filterNeighbor; i2<=i+filterNeighbor ; i2++){
+                    for(int j2 = j-filterNeighbor; j2<=j+filterNeighbor ; j2++){
                         r += image.pixelColor(i2,j2).red();
                     }
                 }
-                r/=9;
-                image.setPixelColor(i,j,QColor(r,r,r));
+                r/=pow(2*filterNeighbor+1,2);
+                newImage.setPixelColor(i,j,QColor(r,r,r));
             }
         }
     }
+    image = newImage;
     update();
     emit image_changed(image);
     qDebug() << "function meanFilter ended";
 }
 void PaintWidget::medianFilter(){
     qDebug() << "function medianFilter called";
-    for(int i = 1; i<400 ; i++){
-        for(int j = 1; j<400 ; j++){
+    QImage newImage = image;
+    for(int i = filterNeighbor; i<=400-filterNeighbor ; i++){
+        for(int j = filterNeighbor; j<=400-filterNeighbor ; j++){
             if(i>startPoint.x()&&j>startPoint.y() && i<lastPoint.x()&&j<lastPoint.y()){
                 //qDebug() << i << "|" << j;
                 QVector<int> ndgList = QVector<int>();
-                for(int i2 = i-1; i2<=i+1 ; i2++){
-                    for(int j2 = j-1; j2<=j+1 ; j2++){
+                for(int i2 = i-filterNeighbor; i2<=i+filterNeighbor ; i2++){
+                    for(int j2 = j-filterNeighbor; j2<=j+filterNeighbor ; j2++){
                         ndgList.append(image.pixelColor(i2,j2).red());
                         std::sort(ndgList.begin(), ndgList.end());
                     }
                 }
-                image.setPixelColor(i,j,QColor(ndgList[4],ndgList[4],ndgList[4]));
+                int indice= (1+filterNeighbor)*2*filterNeighbor;
+                newImage.setPixelColor(i,j,QColor(ndgList[indice],ndgList[indice],ndgList[indice]));
             }
         }
     }
+    image = newImage;
     update();
     emit image_changed(image);
     qDebug() << "function medianFilter ended";
+}
+
+void PaintWidget::setFilterNeighbor(int n)
+{
+    this->filterNeighbor=n;
 }

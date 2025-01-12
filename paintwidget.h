@@ -49,6 +49,7 @@ public:
     void updateSelection();
     void start();
     CatmullRom curve;
+    int filterNeighbor;
 signals:
     void image_changed(QImage heightMap);
 public slots:
@@ -63,6 +64,7 @@ public slots:
     void perlinNoise();
     void randomPerlinNoise();
 
+    void setFilterNeighbor(int n);
     void meanFilter();
     void medianFilter();
 

@@ -244,7 +244,14 @@
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_2">
-            <item row="0" column="0">
+            <item row="3" column="0">
+             <widget class="QPushButton" name="medFilterButton">
+              <property name="text">
+               <string>Median</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
              <widget class="QPushButton" name="meanFilterButton">
               <property name="text">
                <string>Moyen</string>
@@ -252,11 +259,25 @@
              </widget>
             </item>
             <item row="1" column="0">
-             <widget class="QPushButton" name="medFilterButton">
-              <property name="text">
-               <string>Median</string>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <widget class="QLabel" name="label_5">
+                <property name="text">
+                 <string>Nombre de voisins:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="spinBox">
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>100</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </widget>
