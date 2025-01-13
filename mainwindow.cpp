@@ -11,6 +11,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->paint->start();
     connect(ui->meanFilterButton, SIGNAL(pressed()), ui->paint, SLOT(meanFilter()));
     connect(ui->medFilterButton, SIGNAL(pressed()), ui->paint, SLOT(medianFilter()));
+    connect(ui->mountainHeight, SIGNAL(valueChanged(int)), ui->paint, SLOT(setMountainHeight(int)));
+    connect(ui->MountainWidth, SIGNAL(valueChanged(int)), ui->paint, SLOT(setMountainWidth(int)));
 }
 
 MainWindow::~MainWindow()

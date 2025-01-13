@@ -39,6 +39,8 @@ PaintWidget::PaintWidget(QWidget *parent)
     curve.set_steps(20);
 
     filterNeighbor=1;
+    mountainHeight=10;
+    mountainWidth=10;
 }
 
 void PaintWidget::setMode(int index)
@@ -153,6 +155,39 @@ void PaintWidget::drawMountains(const QPoint &endPoint)
     selecPen.setColor(QColor(0, 0, 200,200));
     painter.setPen(selecPen);
     for(int i = 0;  i<mountainsPoint.size() ; i++)painter.drawEllipse(mountainsPoint[i],5,5);
+
+    QImage newImage = image;
+    if (mountainsPoint.size()==20){
+        for(int i = 0; i<=400 ; i++){
+            for(int j = 0; j<=400 ; j++){
+                if(i>startPoint.x()&&j>startPoint.y() && i<lastPoint.x()&&j<lastPoint.y()){
+                    int distance=999;
+                    int closestPoint=0;
+                    for(int k = 0; k<20 ; k++){
+                        int tempDistance = sqrt(pow(mountainsPoint[k].x()-i,2) + pow(mountainsPoint[k].y()-j,2));
+                        if (tempDistance < distance){
+                            closestPoint = k;
+                            distance = tempDistance;
+                        }
+                    }
+                    if (distance < mountainWidth){
+                        int colorSommet = image.pixelColor(mountainsPoint[closestPoint]).red()+mountainHeight;
+                        int colorCurrent = image.pixelColor(i,j).red();
+                        int colorDiff = colorSommet-colorCurrent;
+                        if (colorDiff >=0){
+                            int finalC = colorCurrent+mountainHeight/mountainWidth*(mountainWidth-distance);
+                            newImage.setPixelColor(i,j,QColor(finalC,finalC,finalC));
+                        }
+                    }
+                }
+            }
+        }
+        image=newImage;
+        emit image_changed(image);
+        mountainsPoint.clear();
+        curve = CatmullRom();
+        curve.set_steps(20);
+    }
 
     update();
 }
@@ -482,4 +517,13 @@ void PaintWidget::medianFilter(){
 void PaintWidget::setFilterNeighbor(int n)
 {
     this->filterNeighbor=n;
+}
+
+void PaintWidget::setMountainHeight(int h)
+{
+    this->mountainHeight=h;
+}
+void PaintWidget::setMountainWidth(int w)
+{
+    this->mountainWidth=w;
 }

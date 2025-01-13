@@ -50,6 +50,8 @@ public:
     void start();
     CatmullRom curve;
     int filterNeighbor;
+    int mountainHeight;
+    int mountainWidth;
 signals:
     void image_changed(QImage heightMap);
 public slots:
@@ -68,6 +70,8 @@ public slots:
     void meanFilter();
     void medianFilter();
 
+    void setMountainHeight(int h);
+    void setMountainWidth(int w);
 
 
 };
